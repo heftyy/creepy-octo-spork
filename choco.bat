@@ -1,0 +1,1 @@
+choco install 7zip.install altdrag autoit.commandline battle.net ccleaner cmake cmake.install cpu-z f.lux Firefox flashplayerplugin git git.install malwarebytes MicrosoftSecurityEssentials Opera paint.net procexp putty putty.portable realtemp spotify SublimeText3 Teamspeak3 vlc winscp winscp.install
