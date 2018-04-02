@@ -1,0 +1,1 @@
+reg add "HKCU\Control Panel\Mouse" /v DockTargetMouseWidth /t REG_DWORD /d 0
