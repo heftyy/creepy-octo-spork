@@ -5,7 +5,7 @@
 
 static class FileSearch
 {
-    static int CalculateScore(string pattern, string str, int pattern_index, int str_index, int filename_start_index, int[] matches)
+    static int CalculateScore(string pattern, string str, int pattern_index, int str_index, int filename_start_index, int[] matches, int matches_length)
     {
         const int sequential_bonus = 20;                // bonus for adjacent matches
         const int separator_bonus = 20;                 // bonus if match occurs after a separator
@@ -29,11 +29,9 @@ static class FileSearch
         int first_match_in_filename = 0;
 
         // Apply ordering bonuses
-        for (int i = 0; i < matches.Length; ++i)
+        for (int i = 0; i < matches_length; ++i)
         {
             int currIdx = matches[i];
-            if (currIdx <= 0)
-                break;
 
             if (i > 0)
             {
@@ -93,8 +91,8 @@ static class FileSearch
         public int[] m_Matches;
     }
 
-    static bool FuzzyMatch(string pattern, string str, ref int out_score, ref List<int> out_matches, int filename_start_index)
-    {
+	static bool FuzzyMatch(string pattern, string str, ref int out_score, ref List<int> out_matches, int filename_start_index)
+	{
         string pattern_lower = pattern.ToLower();
         string str_lower = str.ToLower();
 
@@ -104,7 +102,6 @@ static class FileSearch
         // Loop through pattern and str looking for a match
         for (int pattern_index = 0; pattern_index < pattern.Length; ++pattern_index)
         {
-            Array.Clear(matches, 0, matches.Length);
             pattern_scores[pattern_index].m_Score = 0;
 
             int pattern_start = pattern_index;
@@ -130,7 +127,7 @@ static class FileSearch
 
                 if (search_pattern_index - pattern_index > 1)
                 {
-                    int match_score = CalculateScore(pattern, str, pattern_index, str_index, filename_start_index, matches);
+                    int match_score = CalculateScore(pattern, str, pattern_index, str_index, filename_start_index, matches, search_pattern_index - pattern_index);
                     if (match_score > pattern_scores[pattern_index].m_Score)
                     {
                         pattern_scores[pattern_index].m_Score = match_score;
@@ -158,7 +155,7 @@ static class FileSearch
         }
 
         return out_score > 0;
-    }
+	}
 
     public class MatchScoreComparer : IComparer<ProjectScanner.SEntry>
     {
@@ -170,14 +167,14 @@ static class FileSearch
 
     /// <exception cref="OperationCanceledException">Throws when the task is cancelled</exception>
     public static List<ProjectScanner.SEntry> ApplyFileFilterExperimental(string expression, List<ProjectScanner.SEntry> input_files, CancellationToken token)
-    {
-        if (expression.Length == 0)
-            return input_files;
+	{
+		if (expression.Length == 0)
+			return input_files;
 
-        List<ProjectScanner.SEntry> result = new List<ProjectScanner.SEntry>();
-        MatchScoreComparer match_score_comparer = new MatchScoreComparer();
+		List<ProjectScanner.SEntry> result = new List<ProjectScanner.SEntry>();
+		MatchScoreComparer match_score_comparer = new MatchScoreComparer();
 
-        expression = string.Join("", expression.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries));
+		expression = string.Join("", expression.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries));
 
         foreach (ProjectScanner.SEntry file in input_files)
         {
@@ -195,8 +192,8 @@ static class FileSearch
             }
         }
 
-        result.Sort(match_score_comparer);
+		result.Sort(match_score_comparer);
 
-        return result;
-    }
+		return result;
+	}
 }
