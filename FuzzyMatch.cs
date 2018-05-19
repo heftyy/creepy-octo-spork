@@ -176,21 +176,21 @@ static class FileSearch
 
 		expression = string.Join("", expression.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries));
 
-        foreach (ProjectScanner.SEntry file in input_files)
-        {
-            if (token.IsCancellationRequested)
-                token.ThrowIfCancellationRequested();
+		foreach (ProjectScanner.SEntry file in input_files)
+		{
+			if (token.IsCancellationRequested)
+			token.ThrowIfCancellationRequested();
 
-            int score = 0;
-            List<int> matches = new List<int>();
-            FuzzyMatch(expression, file.Path, ref score, ref matches, file.Path.Length - file.Name.Length);
+			int score = 0;
+			List<int> matches = new List<int>();
+			FuzzyMatch(expression, file.Path, ref score, ref matches, file.Path.Length - file.Name.Length);
 
-            if (score > 0)
-            {
-                file.SetMatchScore(score);
-                result.Add(file);
-            }
-        }
+			if (score > 0)
+			{
+			file.SetMatchScore(score);
+			result.Add(file);
+			}
+		}
 
 		result.Sort(match_score_comparer);
 
