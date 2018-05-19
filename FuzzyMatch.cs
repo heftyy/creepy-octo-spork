@@ -91,8 +91,8 @@ static class FileSearch
         public int[] m_Matches;
     }
 
-	static bool FuzzyMatch(string pattern, string str, ref int out_score, ref List<int> out_matches, int filename_start_index)
-	{
+    static bool FuzzyMatch(string pattern, string str, ref int out_score, ref List<int> out_matches, int filename_start_index)
+    {
         string pattern_lower = pattern.ToLower();
         string str_lower = str.ToLower();
 
@@ -155,7 +155,7 @@ static class FileSearch
         }
 
         return out_score > 0;
-	}
+    }
 
     public class MatchScoreComparer : IComparer<ProjectScanner.SEntry>
     {
@@ -167,33 +167,33 @@ static class FileSearch
 
     /// <exception cref="OperationCanceledException">Throws when the task is cancelled</exception>
     public static List<ProjectScanner.SEntry> ApplyFileFilterExperimental(string expression, List<ProjectScanner.SEntry> input_files, CancellationToken token)
-	{
-		if (expression.Length == 0)
-			return input_files;
+    {
+        if (expression.Length == 0)
+            return input_files;
 
-		List<ProjectScanner.SEntry> result = new List<ProjectScanner.SEntry>();
-		MatchScoreComparer match_score_comparer = new MatchScoreComparer();
+        List<ProjectScanner.SEntry> result = new List<ProjectScanner.SEntry>();
+        MatchScoreComparer match_score_comparer = new MatchScoreComparer();
 
-		expression = string.Join("", expression.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries));
+        expression = string.Join("", expression.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries));
 
-		foreach (ProjectScanner.SEntry file in input_files)
-		{
-			if (token.IsCancellationRequested)
-			token.ThrowIfCancellationRequested();
+        foreach (ProjectScanner.SEntry file in input_files)
+        {
+            if (token.IsCancellationRequested)
+                token.ThrowIfCancellationRequested();
 
-			int score = 0;
-			List<int> matches = new List<int>();
-			FuzzyMatch(expression, file.Path, ref score, ref matches, file.Path.Length - file.Name.Length);
+            int score = 0;
+            List<int> matches = new List<int>();
+            FuzzyMatch(expression, file.Path, ref score, ref matches, file.Path.Length - file.Name.Length);
 
-			if (score > 0)
-			{
-			file.SetMatchScore(score);
-			result.Add(file);
-			}
-		}
+            if (score > 0)
+            {
+                file.SetMatchScore(score);
+                result.Add(file);
+            }
+        }
 
-		result.Sort(match_score_comparer);
+        result.Sort(match_score_comparer);
 
-		return result;
-	}
+        return result;
+    }
 }
