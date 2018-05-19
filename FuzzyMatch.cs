@@ -11,7 +11,7 @@ static class FileSearch
         const int separator_bonus = 20;                 // bonus if match occurs after a separator
         const int camel_bonus = 25;                     // bonus if match is uppercase and prev is lower
         const int first_letter_bonus = 25;              // bonus if the first letter is matched
-        const int filename_bonus = 10;                  // bonus if the match is in the filename instead of the path
+        const int filename_bonus = 15;                  // bonus if the match is in the filename instead of the path
 
         const int leading_letter_penalty = -2;          // penalty applied for every letter in str before the first match
         const int unmatched_letter_penalty = -1;        // penalty for every letter that doesn't matter
@@ -50,7 +50,7 @@ static class FileSearch
                 // Camel case
                 char neighbor = str[currIdx - 1];
                 char curr = str[currIdx];
-                if (Char.IsLower(neighbor) && Char.IsUpper(curr))
+                if ((Char.IsLower(neighbor) || neighbor == '\\' || neighbor == '/') && Char.IsUpper(curr))
                     out_score += camel_bonus;
 
                 // Separator
