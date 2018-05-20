@@ -130,9 +130,11 @@ static class FileSearch
                     int match_score = CalculateScore(pattern, str, pattern_index, str_index, filename_start_index, matches, search_pattern_index - pattern_index);
                     if (match_score > pattern_scores[pattern_index].m_Score)
                     {
-                        pattern_scores[pattern_index].m_Score = match_score;
-                        pattern_scores[pattern_index].m_Matches = matches;
                         match_length = search_pattern_index - pattern_index;
+
+                        pattern_scores[pattern_index].m_Score = match_score;
+                        pattern_scores[pattern_index].m_Matches = new int[match_length];
+                        Array.Copy(matches, pattern_scores[pattern_index].m_Matches, match_length);
                     }
                     // Search for better match for the pattern in the string
                     pattern_index = pattern_start;
