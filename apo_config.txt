@@ -1,0 +1,13 @@
+# DT 1990 - Headphones
+# https://www.dropbox.com/s/o7zkgbc1b6flevp/Beyerdynamic%20DT1990%20(A%20Earpads).pdf?dl=0
+Preamp: -4 dB
+Filter: ON LSC Fc 90 Hz Gain 2.0 dB Q 0.7
+Filter: ON PK Fc 220 Hz Gain -3.4 dB Q 0.7
+Filter: ON PK Fc 1500 Hz Gain -1.0 dB Q 3.0
+Filter: ON PK Fc 2700 Hz Gain -1.1 dB Q 6.0
+Filter: ON PK Fc 3700 Hz Gain 3.3 dB Q 4.0
+Filter: ON PK Fc 5500 Hz Gain -1.5 dB Q 4.0
+Filter: ON PK Fc 6400 Hz Gain 2.9 dB Q 7.0
+Filter: ON PK Fc 7350 Hz Gain -3.3 dB Q 5.0
+Filter: ON PK Fc 8350 Hz Gain -4.0 dB Q 3.5
+Filter: ON PK Fc 15000 Hz Gain -2.0 dB Q 1.0
